@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="devoir.css" />
+
+    <script type="text/javascript" src="js/d3.min.js"></script>
+		<script type="text/javascript" src="js/d3.geo.projection.min.js"></script>
+		<script type="text/javascript" src="js/celestial.js"></script>
+		<link rel="stylesheet" href="style/celestial.css">
     <title>Carte du ciel</title>
 </head>
 <body>
@@ -20,7 +25,55 @@
     <li><a href="plan.html" title="plan du site" >Plan du site</a></li>
   </ul>
 </div>
+
+<div class="main">
+    <div id="follow"></div>
+    <div style="overflow:hidden;">
+        <div id="celestial-map"></div>
+    </div>
+    <div id="celestial-form"></div>
+</div>
+
+
+<script type="text/javascript">
+    var cfg = Celestial.settings().set({
+        geopos: [47.666456976635594, -2.75978258607692],
+        location: true,
+        form: true,
+        formFields: {"location": true, "general": false, "stars": false, "dsos": false, "constellations": false, "lines": false, "other": false},
+        advanced: false,
+        follow: "center",
+        projection: "orthographic",
+        datapath: "https://ofrohn.github.io/data/",
+        planets: { show: true },
+        stars: { names: false, limit: 4.6 },
+        dsos: { show: false },
+        constellations: { names: false }
+      }),
+      reqID,
+      reqAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame  ||
+                     window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
+                     window.oRequestAnimationFrame,
+      cncAnimFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame ||
+                     window.webkitCancelAnimationFrame || window.msCancelAnimationFrame ||
+                     window.oCancelAnimationFrame,
+      dt = new Date();
     
+    Celestial.display(cfg);
+    
+    
+    function animate() {
+    dt.setDate(dt.getDate()+1);
+    Celestial.date(dt);
+    reqID = reqAnimFrame(animate);
+    
+    if (follow === "") return;
+    }
+    
+    d3.select('#celestial-map').on('mousedown', function() { cncAnimFrame(reqID) } )
+    d3.select('#celestial-map').on('mouseup', function() { reqAnimFrame(animate) } )
+    
+    reqID = reqAnimFrame(animate);</script>
 </body>
 <footer>
  
