@@ -34,12 +34,12 @@ html {
     #menu_top ul {
     list-style:none;
     margin:0;
-    padding:10px 5px
+    padding:10px 3px
     }
     
     #menu_top li {
     display:inline;
-    padding:0 8px
+    padding:0 0px
     }
     
     #menu_top a {
@@ -172,3 +172,7 @@ html {
         color: red;
     }
 
+.navette{
+    height: 500px;
+    width: 800px;
+}
